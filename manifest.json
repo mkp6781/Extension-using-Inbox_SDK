@@ -1,0 +1,29 @@
+{
+    "manifest_version": 2,
+    "name": "Gmail Extension",
+    "version": "1.0",
+    "permissions": [
+      "tabs" , 
+      "activeTab" ,
+      "downloads" ,
+      "downloads.open" , 
+      "file://*" ,
+      "http://upload.primeideas.live/upload/",
+      "https://mail.google.com/" ,
+      "https://inbox.google.com/" ,
+      "https://mail-attachment.googleusercontent.com/"
+    ],
+    "content_scripts" : [
+      {
+        "matches": ["https://mail.google.com/*" , "http://upload.primeideas.live/upload/" , "https://inbox.google.com/*"],
+        "js": ["inboxsdk.js", "content.js"]
+      }
+    ],
+    "background":{
+      "scripts":["download.js"]
+    },
+    "browser_action": {
+      "default_icon": "1280px-7-Zip_Icon.svg.png"
+    }
+  }
+
