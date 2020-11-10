@@ -1,34 +1,30 @@
 var isButtonClicked = 0;
 var ispdf = 0;
 var downloadDone = 0;
-var opened = 0;
-var load = 1;
 var resumeFile;
 var urlprime;
-var activeTabId;
 
-chrome.browserAction.onClicked.addListener(buttonClicked);
-    function buttonClicked(tab) {
-        let msg = {
-            txt: "hello"
-            }
-    chrome.tabs.sendMessage(tab.id, msg);
-}
+// chrome.browserAction.onClicked.addListener(buttonClicked);
+//     function buttonClicked(tab) {
+//         let msg = {
+//             txt: "hello"
+//             }
+//     chrome.tabs.sendMessage(tab.id, msg);
+// }
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        console.log("hey");
-        if (request.txt==="jvh")
+        if (request.txt==="jvh"){
             chrome.tabs.create({url:request.downloadUrl});
             isButtonClicked = 1;
-            return true;
+        }
+        return true;
 });
 
 
 chrome.downloads.onCreated.addListener(
     function(downloadItem) {         
         if(isButtonClicked == 1){
-            console.log(downloadItem.mime ,downloadItem.filename);
             if(downloadItem.mime === "application/pdf"){
                 ispdf = 1;
             }
@@ -42,10 +38,9 @@ chrome.downloads.onCreated.addListener(
 chrome.downloads.onChanged.addListener(
     function(downloadItema){
         if(ispdf==1){
-            if (downloadItema.state["current"] === "complete"){
-                console.log("download complete");
-                chrome.downloads.open(downloadItema.id);
+            if (downloadItema.state['current'] === "complete"){
                 downloadDone = 1; 
+                chrome.downloads.open(downloadItema.id);
             }
         }
 });
@@ -59,6 +54,7 @@ chrome.tabs.onCreated.addListener(
 });
 
 function uploadFile(resumeFile){
+    console.log("HI");
     const urlprime = "http://upload.primeideas.live/upload/";
     var xhr = new XMLHttpRequest();
     xhr.responseType = "blob";
@@ -79,7 +75,10 @@ function uploadFile(resumeFile){
             }else{
                 alert("Upload unsuccesful");
             }
-        })    
+        })
+        downloadDone=0;
+        isButtonClicked=0;
+        ispdf=0;    
     };
     
     xhr.onerror = function() { // only triggers if the request couldn't be made at all
