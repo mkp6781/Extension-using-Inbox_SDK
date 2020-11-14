@@ -62,9 +62,8 @@ function uploadFile(resumeFile){
             body: formData
         })
             .then(response=>{
-            if (response){
-                continue;
-            }else{
+            if (response){}
+            else{
                 alert("Upload unsuccesful");
             }
         })
