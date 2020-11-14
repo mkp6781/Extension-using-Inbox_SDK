@@ -20,5 +20,3 @@ InboxSDK.load('2', 'sdk_extension-gmail_bd11839ecc').then(function(sdk){
 	})
 });
 
-
-// APP_ID = sdk_extension-gmail_bd11839ecc
